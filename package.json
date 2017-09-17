@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "webpack": "^3.6.0"
+  },
+  "scripts": {
+    "build": "webpack dev/script.js dev/bundle.js",
+    "watch": "webpack dev/script.js dev/bundle.js -w"
+  }
+}
