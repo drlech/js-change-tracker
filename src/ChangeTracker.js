@@ -1,3 +1,5 @@
+import addToObject from './addToObject';
+
 export default class ChangeTracker {
     constructor(initial = {}) {
         // Initial value. Separately from changes, because we want to allow
@@ -15,8 +17,7 @@ export default class ChangeTracker {
      * Add new change.
      * If some previously added changes have been undoed, they will be lost.
      *
-     * @param {string} path Dot-delimeted path within the object where the change
-     *                      should be added.
+     * @param {string} path Dot-delimeted path within the object where the change should be added.
      * @param {*} value Value to add.
      */
     add(path, value) {
