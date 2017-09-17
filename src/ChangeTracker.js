@@ -48,4 +48,24 @@ export default class ChangeTracker {
             this._pointer++;
         }
     }
+
+    /**
+     * Retrieve the final version of the object, composed of all
+     * the changes added along the way.
+     */
+    getFinal() {
+        if (this._pointer < 0) {
+            return this._head;
+        }
+
+        // We don't want to modify the initial value!
+        const final = JSON.parse(JSON.stringify(this._head));
+
+        for (let i = 0; i <= this._pointer; i++) {
+            const change = this._changes[i];
+            addToObject(final, change.path, change.value);
+        }
+
+        return final;
+    }
 }
