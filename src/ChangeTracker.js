@@ -11,6 +11,10 @@ export default class ChangeTracker {
 
         // Marks at which point in changes we are.
         this._pointer = -1;
+
+        // List of paths that don't create new change, but stack
+        // when added consecutively.
+        this.stacking = [];
     }
 
     /**
@@ -27,8 +31,42 @@ export default class ChangeTracker {
             this._changes.splice(this._pointer + 1);
         }
 
+        // Handle stacking changes.
+        if (
+            this._pointer > -1 &&
+            path === this._changes[this._pointer].path &&
+            this.stacking.indexOf(path) >= 0
+        ) {
+            this._changes[this._pointer].value = value;
+
+            return;
+        }
+
         this._changes.push({ path, value });
         this._pointer++;
+    }
+
+    /**
+     * Stack values under a given path.
+     *
+     * @param {string} path Make values under that path stacking.
+     */
+    stack(path) {
+        if (this.stacking.indexOf(path) === -1) {
+            this.stacking.push(path);
+        }
+    }
+
+    /**
+     * Stop stacking values under a given path.
+     *
+     * @param {string} path Stop stacking values under that path.
+     */
+    stopStacking(path) {
+        const position = this.stacking.indexOf(path);
+        if (position >= 0) {
+            this.stacking.splice(position, 1);
+        }
     }
 
     /**
