@@ -4,7 +4,7 @@ export default class ChangeTracker {
     constructor(initial = {}) {
         // Initial value. Separately from changes, because we want to allow
         // changing the initial value without it being undoable/redoable.
-        this._head = initial || {};
+        this.head = initial || {};
 
         // All changes made to the object.
         this._changes = [];
@@ -55,11 +55,11 @@ export default class ChangeTracker {
      */
     getFinal() {
         if (this._pointer < 0) {
-            return this._head;
+            return this.head;
         }
 
         // We don't want to modify the initial value!
-        const final = JSON.parse(JSON.stringify(this._head));
+        const final = JSON.parse(JSON.stringify(this.head));
 
         for (let i = 0; i <= this._pointer; i++) {
             const change = this._changes[i];
